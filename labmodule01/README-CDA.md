@@ -1,4 +1,4 @@
-# Constrained Device Application (Connected Devices)
+![image](https://github.com/Abbas-Rizvi/iot-book-exercise-docs/assets/73917749/0ab3d361-095e-4544-9ee9-59931c25f978)# Constrained Device Application (Connected Devices)
 
 ## Lab Module 01
 
@@ -12,9 +12,15 @@ What does your implementation do?
 
 How does your implementation work?
 
+
 ### Code Repository and Branch
 
+![image](https://github.com/Abbas-Rizvi/iot-book-exercise-docs/assets/73917749/9836730d-0214-4dae-9978-1b054fcfccbb)
+
 NOTE: Be sure to include the branch (e.g. https://github.com/programming-the-iot/python-components/tree/alpha001).
+
+![image](https://github.com/Abbas-Rizvi/iot-book-exercise-docs/assets/73917749/5fc8865b-ebb2-4dd9-a8af-9741f88d51ad)
+
 
 URL: 
 
@@ -31,9 +37,10 @@ NOTE: TA's will execute your unit tests. You only need to list each test case be
 (e.g. ConfigUtilTest, DataUtilTest, etc). Be sure to include all previous tests, too,
 since you need to ensure you haven't introduced regressions.
 
-- 
-- 
-- 
+ConfigUtilTest:
+![image](https://github.com/Abbas-Rizvi/iot-book-exercise-docs/assets/73917749/7be65efd-547e-4173-9ccb-a5bfb1487cf1)
+
+
 
 ### Integration Tests Executed
 
@@ -42,8 +49,8 @@ some exceptions (such as your cloud connectivity tests). In such cases, they'll 
 your code to ensure it's correct. As for the tests you execute, you only need to list each
 test case below (e.g. SensorSimAdapterManagerTest, DeviceDataManagerTest, etc.)
 
-- 
-- 
-- 
+ConstrainedDeviceAppTest:
+![image](https://github.com/Abbas-Rizvi/iot-book-exercise-docs/assets/73917749/a867dae5-9375-4583-b13c-e88d5c401806)
+
 
 EOF.
