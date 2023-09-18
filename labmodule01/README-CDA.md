@@ -1,5 +1,3 @@
-![image](https://github.com/Abbas-Rizvi/iot-book-exercise-docs/assets/73917749/0ab3d361-095e-4544-9ee9-59931c25f978)# Constrained Device Application (Connected Devices)
-
 ## Lab Module 01
 
 Be sure to implement all the PIOT-CDA-* issues (requirements) listed at [PIOT-INF-01-001 - Lab Module 01](https://github.com/orgs/programming-the-iot/projects/1#column-9974937).
