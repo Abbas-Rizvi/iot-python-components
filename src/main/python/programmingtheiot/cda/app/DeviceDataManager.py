@@ -24,21 +24,12 @@ from programmingtheiot.common.ISystemPerformanceDataListener import ISystemPerfo
 from programmingtheiot.common.ITelemetryDataListener import ITelemetryDataListener
 
 from programmingtheiot.common.ResourceNameEnum import ResourceNameEnum
+from programmingtheiot.cda.connection.CoapServerAdapter import CoapServerAdapter
 
 from programmingtheiot.data.DataUtil import DataUtil
 from programmingtheiot.data.ActuatorData import ActuatorData
 from programmingtheiot.data.SensorData import SensorData
 from programmingtheiot.data.SystemPerformanceData import SystemPerformanceData
-
-
-####
-# 
-# This class is part of the Programming the Internet of Things project.
-# 
-# It is provided as a simple shell to guide the student and assist with
-# implementation for the Programming the Internet of Things exercises,
-# and designed to be modified by the student as neede
-
 
 class DeviceDataManager(IDataMessageListener):
     """
@@ -65,16 +56,7 @@ class DeviceDataManager(IDataMessageListener):
         self.actuatorAdapterMgr = None
 
         # NOTE: The following aren't used until Part III but should be declared now
-        self.enableMqttClient = \
-            self.configUtil.getBoolean( \
-                section = ConfigConst.CONSTRAINED_DEVICE, key = ConfigConst.ENABLE_MQTT_CLIENT_KEY)
-                
         self.mqttClient = None
-        
-        if self.enableMqttClient:
-            self.mqttClient = MqttClientConnector()
-            self.mqttClient.setDataMessageListener(self)
-            
         self.coapClient = None
         self.coapServer = None
 
@@ -98,11 +80,28 @@ class DeviceDataManager(IDataMessageListener):
 
         self.triggerHvacTempFloor = \
             self.configUtil.getFloat( \
-                ConfigConst.CONSTRAINED_DEVICE, ConfigConst.TRIGGER_HVAC_TEMP_FLOOR_KEY);
+                ConfigConst.CONSTRAINED_DEVICE, ConfigConst.TRIGGER_HVAC_TEMP_FLOOR_KEY)
 
         self.triggerHvacTempCeiling = \
             self.configUtil.getFloat( \
-                ConfigConst.CONSTRAINED_DEVICE, ConfigConst.TRIGGER_HVAC_TEMP_CEILING_KEY);
+                ConfigConst.CONSTRAINED_DEVICE, ConfigConst.TRIGGER_HVAC_TEMP_CEILING_KEY)
+
+        self.enableMqttClient = \
+            self.configUtil.getBoolean( \
+                section=ConfigConst.CONSTRAINED_DEVICE, key=ConfigConst.ENABLE_MQTT_CLIENT_KEY)
+
+        self.mqttClient = None
+
+        if self.enableMqttClient:
+            self.mqttClient = MqttClientConnector()
+            self.mqttClient.setDataMessageListener(self)
+
+        self.enableCoapServer = \
+            self.configUtil.getBoolean( \
+                section = ConfigConst.CONSTRAINED_DEVICE, key = ConfigConst.ENABLE_COAP_SERVER_KEY)
+
+        if self.enableCoapServer:
+            self.coapServer = CoapServerAdapter(dataMsgListener = self)
 
     def getLatestActuatorDataResponseFromCache(self, name: str = None) -> ActuatorData:
         """
@@ -203,11 +202,15 @@ class DeviceDataManager(IDataMessageListener):
 
         if self.sensorAdapterMgr:
             self.sensorAdapterMgr.startManager()
-            
+
         if self.mqttClient:
             self.mqttClient.connectClient()
-            self.mqttClient.subscribeToTopic(ResourceNameEnum.CDA_ACTUATOR_CMD_RESOURCE, callback = None, qos = ConfigConst.DEFAULT_QOS)
-    
+            self.mqttClient.subscribeToTopic(ResourceNameEnum.CDA_ACTUATOR_CMD_RESOURCE,
+                                             callback=None,
+                                             qos=ConfigConst.DEFAULT_QOS)
+        if self.coapServer:
+            self.coapServer.startServer()
+
         logging.info("Started DeviceDataManager.")
 
     def stopManager(self):
@@ -218,10 +221,13 @@ class DeviceDataManager(IDataMessageListener):
 
         if self.sensorAdapterMgr:
             self.sensorAdapterMgr.stopManager()
-            
+
         if self.mqttClient:
             self.mqttClient.unsubscribeFromTopic(ResourceNameEnum.CDA_ACTUATOR_CMD_RESOURCE)
             self.mqttClient.disconnectClient()
+
+        if self.coapServer:
+            self.coapServer.stopServer()
 
         logging.info("Stopped DeviceDataManager.")
 
