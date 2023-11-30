@@ -20,13 +20,7 @@ from programmingtheiot.data.DataUtil import DataUtil
 from programmingtheiot.data.SensorData import SensorData
 
 class MqttClientConnectorTest(unittest.TestCase):
-	"""
-	This test case class contains very basic unit tests for
-	MqttClientConnector. It should not be considered complete,
-	but serve as a starting point for the student implementing
-	additional functionality within their Programming the IoT
-	environment.
-	"""
+	
 	NS_IN_MILLIS = 1000000
 	MAX_TEST_RUNS = 10000
 	
@@ -41,7 +35,7 @@ class MqttClientConnectorTest(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	@unittest.skip("Ignore for now.")
+	#@unittest.skip("Ignore for now.")
 	def testConnectAndDisconnect(self):
 		startTime = time.time_ns()
 		
@@ -53,15 +47,15 @@ class MqttClientConnectorTest(unittest.TestCase):
 		
 		logging.info("Connect and Disconnect: " + str(elapsedMillis) + " ms")
 		
-	@unittest.skip("Ignore for now.")
+	#@unittest.skip("Ignore for now.")
 	def testPublishQoS0(self):
 		self._execTestPublish(self.MAX_TEST_RUNS, 0)
 
-	@unittest.skip("Ignore for now.")
+	#@unittest.skip("Ignore for now.")
 	def testPublishQoS1(self):
 		self._execTestPublish(self.MAX_TEST_RUNS, 1)
 
-	@unittest.skip("Ignore for now.")
+	#@unittest.skip("Ignore for now.")
 	def testPublishQoS2(self):
 		self._execTestPublish(self.MAX_TEST_RUNS, 2)
 

@@ -1,3 +1,12 @@
+#####
+# 
+# This class is part of the Programming the Internet of Things
+# project, and is available via the MIT License, which can be
+# found in the LICENSE file at the top level of this repository.
+# 
+# Copyright (c) 2020 by Andrew D. King
+# 
+
 import logging
 import unittest
 
@@ -14,13 +23,6 @@ from programmingtheiot.data.SensorData import SensorData
 from programmingtheiot.data.DataUtil import DataUtil
 
 class MqttClientConnectorTest(unittest.TestCase):
-	"""
-	This test case class contains very basic unit tests for
-	MqttClientConnector. It should not be considered complete,
-	but serve as a starting point for the student implementing
-	additional functionality within their Programming the IoT
-	environment.
-	"""
 	
 	@classmethod
 	def setUpClass(self):
@@ -28,7 +30,7 @@ class MqttClientConnectorTest(unittest.TestCase):
 		logging.info("Testing MqttClientConnector class...")
 		
 		self.cfg = ConfigUtil()
-		self.mcc = MqttClientConnector()
+		self.mcc = MqttClientConnector("MqttclientTest")
 		
 	def setUp(self):
 		pass
@@ -36,7 +38,7 @@ class MqttClientConnectorTest(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	@unittest.skip("Ignore for now.")
+	#@unittest.skip("Ignore for now.")
 	def testConnectAndDisconnect(self):
 		delay = self.cfg.getInteger(ConfigConst.MQTT_GATEWAY_SERVICE, ConfigConst.KEEP_ALIVE_KEY, ConfigConst.DEFAULT_KEEP_ALIVE)
 		
@@ -46,7 +48,7 @@ class MqttClientConnectorTest(unittest.TestCase):
 		
 		self.mcc.disconnectClient()
 
-	#@unittest.skip("Ignore for now.")
+	@unittest.skip("Ignore for now.")
 	def testConnectAndCDAManagementStatusPubSub(self):
 		qos = 1
 		delay = self.cfg.getInteger(ConfigConst.MQTT_GATEWAY_SERVICE, ConfigConst.KEEP_ALIVE_KEY, ConfigConst.DEFAULT_KEEP_ALIVE)
@@ -71,11 +73,12 @@ class MqttClientConnectorTest(unittest.TestCase):
 	
 		# NOTE: delay can be anything you'd like - the sleep() calls are simply to slow things down a bit for observation
 		delay = self.cfg.getInteger(ConfigConst.MQTT_GATEWAY_SERVICE, ConfigConst.KEEP_ALIVE_KEY, ConfigConst.DEFAULT_KEEP_ALIVE)
+		self.mcc.setDataMessageListener(DefaultDataMessageListener())
 		
 		actuatorData = ActuatorData()
 		payload = DataUtil().actuatorDataToJson(actuatorData)
 		
-		self.mcc.setDataMessageListener(DefaultDataMessageListener())
+		
 		self.mcc.connectClient()
 		
 		sleep(5)
